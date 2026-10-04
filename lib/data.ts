@@ -273,6 +273,11 @@ export const projects: Project[] = [
       "Fitness tracker: routines, set/rep/weight logging, personal records, calories from MET values, water and cardio, challenges and levels, reminders and a home screen widget.",
     tags: ["Kotlin", "Jetpack Compose", "Firebase Auth", "Firestore"],
     repo: "https://github.com/leolennards/ApexFitness",
+    shots: [
+      "/projects/apexfitness/01-home.webp",
+      "/projects/apexfitness/02-stats.webp",
+      "/projects/apexfitness/03-week.webp",
+    ],
   },
   {
     id: "kleenpride",
