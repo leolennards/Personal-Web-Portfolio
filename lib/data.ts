@@ -229,8 +229,7 @@ export const projects: Project[] = [
       "Invoices generated as downloadable PDFs, plus email confirmations.",
       "Validated inputs and JWT sessions on the admin side.",
     ],
-    tags: ["Next.js", "TypeScript", "Tailwind", "Drizzle", "Turso", "Payfast", "Vercel"],
-    link: "https://ceres-valley-retreat.vercel.app",
+    tags: ["Next.js", "TypeScript", "Tailwind", "Drizzle", "Turso", "Payfast"],
   },
   {
     id: "seclab",
