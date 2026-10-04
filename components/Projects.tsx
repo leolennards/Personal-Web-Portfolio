@@ -46,17 +46,84 @@ function LabDiagram() {
   );
 }
 
-function Featured({ p }: { p: Project }) {
+function BookingDiagram() {
+  const days = Array.from({ length: 28 }, (_, i) => i);
+  const booked = new Set([3, 4, 5, 11, 12, 19, 20, 21, 22]);
+  const picked = new Set([15, 16, 17]);
+  return (
+    <div className="mx-auto w-full max-w-sm font-mono text-[11px]">
+      <div className="mb-3 flex items-center justify-between text-faint">
+        <span>availability · 3-bed cottage</span>
+        <span className="text-signal">● live</span>
+      </div>
+      <div className="grid grid-cols-7 gap-1.5">
+        {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => (
+          <div key={i} className="pb-1 text-center text-faint">{d}</div>
+        ))}
+        {days.map((d) => (
+          <div
+            key={d}
+            className={`grid aspect-square place-items-center rounded ${
+              booked.has(d)
+                ? "bg-line text-faint line-through"
+                : picked.has(d)
+                  ? "bg-signal text-void"
+                  : "border border-line text-dim"
+            }`}
+          >
+            {d + 1}
+          </div>
+        ))}
+      </div>
+      <div className="mt-4 grid grid-cols-3 gap-2 text-center">
+        {[
+          ["payfast", "paid", "text-signal"],
+          ["webhook", "confirmed", "text-ice"],
+          ["invoice", "pdf sent", "text-amber"],
+        ].map(([k, v, c]) => (
+          <div key={k} className="rounded border border-line bg-panel-2 px-2 py-2">
+            <div className="text-faint">{k}</div>
+            <div className={c}>{v}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function Links({ p }: { p: Project }) {
+  if (!p.link && !p.repo) return null;
+  const btn =
+    "relative z-10 rounded border border-line-bright px-3 py-1.5 font-mono text-[11px] text-dim transition hover:border-signal hover:text-signal";
+  return (
+    <div className="flex flex-wrap gap-2">
+      {p.link && (
+        <a href={p.link} target="_blank" rel="noreferrer" className={btn}>
+          live site ↗
+        </a>
+      )}
+      {p.repo && (
+        <a href={p.repo} target="_blank" rel="noreferrer" className={btn}>
+          source ↗
+        </a>
+      )}
+    </div>
+  );
+}
+
+function Featured({ p, flip }: { p: Project; flip?: boolean }) {
   return (
     <div
       onMouseMove={trackSpotlight}
-      className="spotlight grid gap-8 overflow-hidden rounded-2xl border border-line bg-panel p-6 md:p-10 lg:grid-cols-[1fr_1.1fr]"
+      className={`spotlight grid gap-8 overflow-hidden rounded-2xl border border-line bg-panel p-6 md:p-10 lg:grid-cols-[1fr_1.1fr] ${
+        flip ? "lg:[&>*:first-child]:order-2" : ""
+      }`}
     >
       <div>
         <div className="flex items-center gap-3 font-mono text-[11px]">
           <span className="rounded bg-amber/15 px-2 py-0.5 text-amber">FEATURED</span>
           <span className="text-dim">{p.kind}</span>
-          <span className="text-faint">· {p.year}</span>
+          {p.year && <span className="text-faint">· {p.year}</span>}
         </div>
         <h3 className="mt-5 text-3xl font-semibold tracking-tight text-ink md:text-4xl">{p.title}</h3>
         <p className="mt-4 text-dim md:text-lg">{p.summary}</p>
@@ -75,61 +142,75 @@ function Featured({ p }: { p: Project }) {
             </span>
           ))}
         </div>
+        <div className="mt-6">
+          <Links p={p} />
+        </div>
       </div>
       <div className="flex items-center rounded-xl border border-line bg-void/60 p-4 md:p-6">
-        <LabDiagram />
+        {p.diagram === "booking" ? <BookingDiagram /> : <LabDiagram />}
       </div>
     </div>
   );
 }
 
+// fanned out phone screens, spread more on hover
+function Shots({ shots, title }: { shots: string[]; title: string }) {
+  const mid = (shots.length - 1) / 2;
+  return (
+    <div className="group/shots relative mb-6 flex h-80 items-end justify-center overflow-hidden rounded-lg border border-line bg-void/60 pt-6">
+      {shots.map((src, i) => {
+        const off = i - mid;
+        return (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            key={src}
+            src={src}
+            alt={`${title} screen ${i + 1}`}
+            loading="lazy"
+            className="absolute bottom-[-12%] w-[34%] max-w-[150px] rounded-[16px] border border-line-bright shadow-2xl transition-transform duration-500 ease-out [transform:translateX(var(--x))_rotate(var(--r))] group-hover/shots:[transform:translateX(var(--hx))_translateY(-8%)_rotate(var(--hr))]"
+            style={
+              {
+                "--x": `${off * 34}%`,
+                "--r": `${off * 6}deg`,
+                "--hx": `${off * 70}%`,
+                "--hr": `${off * 2}deg`,
+                zIndex: 10 - Math.abs(Math.round(off * 2)),
+              } as React.CSSProperties
+            }
+          />
+        );
+      })}
+    </div>
+  );
+}
+
 function Card({ p }: { p: Project }) {
-  if (p.placeholder) {
-    return (
-      <div className="marching flex h-full min-h-56 flex-col items-center justify-center rounded-xl p-6 text-center font-mono">
-        <div className="text-[11px] tracking-widest text-faint">AWAITING_UPLOAD</div>
-        <div className="mt-3 text-sm text-dim">{p.summary}</div>
-        <div className="mt-4 flex gap-1">
-          {[0, 1, 2].map((i) => (
-            <span
-              key={i}
-              className="h-1.5 w-1.5 animate-blink rounded-full bg-faint"
-              style={{ animationDelay: `${i * 200}ms` }}
-            />
-          ))}
-        </div>
-      </div>
-    );
-  }
-  const Inner = (
-    <>
+  return (
+    <div
+      onMouseMove={trackSpotlight}
+      className="spotlight group flex h-full min-h-56 flex-col rounded-xl border border-line bg-panel/60 p-6 transition hover:-translate-y-1 hover:border-line-bright"
+    >
+      {p.shots && <Shots shots={p.shots} title={p.title} />}
       <div className="flex items-center justify-between font-mono text-[11px]">
         <span className="text-dim">{p.kind}</span>
         <span className="text-faint">{p.year}</span>
       </div>
-      <h3 className="mt-5 text-xl font-semibold text-ink">
-        {p.title}
-        {p.link && <span className="ml-2 inline-block text-signal transition group-hover:translate-x-1 group-hover:-translate-y-1">↗</span>}
-      </h3>
+      <h3 className="mt-4 text-xl font-semibold text-ink">{p.title}</h3>
       <p className="mt-3 text-sm text-dim">{p.summary}</p>
-      <div className="mt-auto flex flex-wrap gap-1.5 pt-6">
-        {p.tags.map((t) => (
-          <span key={t} className="rounded border border-line px-2 py-0.5 font-mono text-[11px] text-dim">
-            {t}
-          </span>
-        ))}
+      <div className="mt-auto pt-6">
+        <div className="flex flex-wrap gap-1.5">
+          {p.tags.map((t) => (
+            <span key={t} className="rounded border border-line px-2 py-0.5 font-mono text-[11px] text-dim">
+              {t}
+            </span>
+          ))}
+        </div>
+        {(p.link || p.repo) && (
+          <div className="mt-4">
+            <Links p={p} />
+          </div>
+        )}
       </div>
-    </>
-  );
-  const cls =
-    "spotlight group flex h-full min-h-56 flex-col rounded-xl border border-line bg-panel/60 p-6 transition hover:-translate-y-1 hover:border-line-bright";
-  return p.link ? (
-    <a href={p.link} target="_blank" rel="noreferrer" onMouseMove={trackSpotlight} className={cls}>
-      {Inner}
-    </a>
-  ) : (
-    <div onMouseMove={trackSpotlight} className={cls}>
-      {Inner}
     </div>
   );
 }
@@ -143,17 +224,17 @@ export default function Projects() {
         port="04"
         cmd="ls ~/projects"
         title="Built, broken, fixed."
-        kicker="Labs and builds where I learned by doing, from my own PKI to a full Windows Server domain."
+        kicker="Things I've built: a booking site with real payments, Android apps, and labs where I learned by breaking things."
       />
       <div className="space-y-6">
-        {featured.map((p) => (
+        {featured.map((p, i) => (
           <Reveal key={p.id}>
-            <Featured p={p} />
+            <Featured p={p} flip={i % 2 === 1} />
           </Reveal>
         ))}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {rest.map((p, i) => (
-            <Reveal key={p.id} delay={(i % 3) * 90}>
+            <Reveal key={p.id} delay={(i % 3) * 90} className={p.shots ? "md:col-span-2 lg:col-span-1 lg:row-span-2" : ""}>
               <Card p={p} />
             </Reveal>
           ))}

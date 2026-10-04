@@ -104,6 +104,14 @@ export const stack = [
   "OpenSSL",
   "ModSecurity",
   "tcpdump",
+  "Next.js",
+  "React",
+  "TypeScript",
+  "Kotlin",
+  "Jetpack Compose",
+  "Firebase",
+  "Flask",
+  "Postgres",
   "HTML · CSS · JS",
   "Python",
   "C++",
@@ -198,35 +206,93 @@ export type Project = {
   points?: string[];
   tags: string[];
   link?: string;
+  repo?: string;
+  shots?: string[]; // phone screenshots
   featured?: boolean;
+  diagram?: "lab" | "booking";
   placeholder?: boolean;
 };
 
 export const projects: Project[] = [
+  {
+    id: "ceres",
+    title: "Ceres Valley Retreat",
+    year: "2026",
+    kind: "Full-stack booking site",
+    featured: true,
+    diagram: "booking",
+    summary:
+      "A direct-booking website for a 3-bedroom holiday cottage in Ceres, so guests can book and pay without going through a booking platform.",
+    points: [
+      "Live availability calendar and online payments through Payfast, confirmed by a webhook.",
+      "Password-protected admin area to manage bookings and block out dates.",
+      "Invoices generated as downloadable PDFs, plus email confirmations.",
+      "Validated inputs and JWT sessions on the admin side.",
+    ],
+    tags: ["Next.js", "TypeScript", "Tailwind", "Drizzle", "Turso", "Payfast", "Vercel"],
+    link: "https://ceres-valley-retreat.vercel.app",
+  },
   {
     id: "seclab",
     title: "Hardened Multi-Service Environment",
     year: "2026",
     kind: "Security lab · Docker",
     featured: true,
+    diagram: "lab",
     summary:
-      "Built and secured a containerised environment from the ground up, then broke and fixed it until it held.",
+      "A small fintech-style microservice stack that I built and then locked down, breaking and fixing it until it held.",
     points: [
-      "TLS everywhere with my own PKI built on OpenSSL.",
-      "ModSecurity web application firewall in front of every service.",
+      "Flask API and a separate Flask auth service with Postgres 16, which is only reachable on the internal network.",
+      "TLS everywhere with my own PKI built on OpenSSL, and a ModSecurity WAF in front.",
       "Encrypted data at rest (AES-256), hashed credentials and hardened containers.",
-      "Diagnosed real faults: port conflicts, TLS mismatches and certificate errors, verified with tcpdump packet analysis.",
+      "Fixed real faults along the way (port conflicts, TLS mismatches, cert errors) and checked the traffic with tcpdump.",
     ],
-    tags: ["Docker", "OpenSSL", "ModSecurity", "AES-256", "tcpdump"],
+    tags: ["Docker Compose", "Flask", "Postgres", "OpenSSL", "ModSecurity", "tcpdump"],
   },
   {
-    id: "zerotrust",
-    title: "Zero Trust for Hybrid Work",
-    year: "2026 – now",
-    kind: "Postgraduate research",
+    id: "anygrab",
+    title: "AnyGrab",
+    year: "2026",
+    kind: "Android app",
     summary:
-      "Research project on Zero Trust Architecture for remote and hybrid workforces, alongside modules in Network Design, Offensive & Defensive Technologies and Data Mining.",
-    tags: ["Zero Trust", "Network design", "Research"],
+      "Saves videos and music as MP3 or MP4, with a download queue, playlists, tagged MP3s with cover art and a library. yt-dlp runs on the phone itself, no server.",
+    tags: ["Kotlin", "Jetpack Compose", "yt-dlp", "Foreground service"],
+    repo: "https://github.com/leolennards/YTDownloader",
+    shots: [
+      "/projects/anygrab/01-paste.webp",
+      "/projects/anygrab/02-preview.webp",
+      "/projects/anygrab/03-downloading.webp",
+      "/projects/anygrab/05-library.webp",
+    ],
+  },
+  {
+    id: "apex",
+    title: "ApexFitness",
+    year: "2026",
+    kind: "Android app",
+    summary:
+      "Fitness tracker: routines, set/rep/weight logging, personal records, calories from MET values, water and cardio, challenges and levels, reminders and a home screen widget.",
+    tags: ["Kotlin", "Jetpack Compose", "Firebase Auth", "Firestore"],
+    repo: "https://github.com/leolennards/ApexFitness",
+  },
+  {
+    id: "kleenpride",
+    title: "KleenPride",
+    year: "2025",
+    kind: "Android app · team project",
+    summary:
+      "Mobile car-wash booking app built with a team of five, with sign-in, bookings, photos and live location on a map. I was the top contributor by commits.",
+    tags: ["Kotlin", "Jetpack Compose", "Firebase", "Google Maps"],
+    repo: "https://github.com/One031/KleenPride-MobileCarWash",
+  },
+  {
+    id: "fitcore",
+    title: "FitCore",
+    year: "",
+    kind: "Web app",
+    summary:
+      "Mobile-first fitness web app with onboarding, workout plans, a muscle recovery tracker, nutrition and macro logging and progress charts.",
+    tags: ["React", "Vite", "Tailwind"],
   },
   {
     id: "winserver",
@@ -238,33 +304,32 @@ export const projects: Project[] = [
     tags: ["Server 2019", "AD DS", "GPO", "PowerShell"],
   },
   {
-    id: "hex-portfolio",
-    title: "Portfolio · Music Player · Book Library",
+    id: "network",
+    title: "Campus Network Design",
+    year: "",
+    kind: "Cisco Packet Tracer",
+    summary:
+      "Designed and simulated a university network in Cisco Packet Tracer for my networking modules.",
+    tags: ["Cisco Packet Tracer", "Networking"],
+  },
+  {
+    id: "zerotrust",
+    title: "Zero Trust for Hybrid Work",
+    year: "2026 – now",
+    kind: "Postgraduate research",
+    summary:
+      "Research project on Zero Trust Architecture for remote and hybrid workforces, alongside Network Design and Offensive & Defensive Technologies.",
+    tags: ["Zero Trust", "Network design", "Research"],
+  },
+  {
+    id: "hex",
+    title: "Book Library · Music Player",
     year: "2025",
     kind: "Hex Softwares internship",
     summary:
-      "Three front-end projects shipped to deadline with a remote team, including the first version of this portfolio.",
-    tags: ["HTML", "CSS", "JavaScript", "GitHub"],
-    link: "https://github.com/leolennards",
-  },
-  // TODO: add more projects
-  {
-    id: "slot-1",
-    title: "Next project",
-    year: "—",
-    kind: "Reserved slot",
-    summary: "More projects are on the way.",
-    tags: [],
-    placeholder: true,
-  },
-  {
-    id: "slot-2",
-    title: "Next project",
-    year: "—",
-    kind: "Reserved slot",
-    summary: "More projects are on the way.",
-    tags: [],
-    placeholder: true,
+      "Front-end projects shipped to deadline with a remote team, alongside the first version of my portfolio.",
+    tags: ["HTML", "CSS", "JavaScript"],
+    repo: "https://github.com/leolennards/HexSoftwares_BookLibrary",
   },
 ];
 
@@ -275,9 +340,12 @@ export type Credential = {
   detail?: string;
   id?: string;
   file?: string;
+  verify?: { label: string; url: string }[];
   accent: "green" | "amber" | "blue" | "violet";
   placeholder?: boolean;
 };
+
+const coursera = (id: string, label: string) => ({ label, url: `https://coursera.org/verify/${id}` });
 
 export const credentials: Credential[] = [
   {
@@ -285,14 +353,14 @@ export const credentials: Credential[] = [
     issuer: "NinjaOne",
     date: "Feb 2026",
     id: "nILnSSSajA",
-    detail: "RMM deployment, monitoring and remote management for MSP environments.",
+    detail: "RMM deployment, monitoring and remote management for MSPs. Valid until Feb 2027.",
     accent: "green",
   },
   {
     title: "Golden Key International Honour Society",
     issuer: "Eduvos",
-    date: "Member",
-    detail: "Invited for ranking in the top 15% of academic achievers at Eduvos.",
+    date: "Since 2024",
+    detail: "Lifetime member, invited for ranking in the top 15% of academic achievers.",
     file: "/docs/Golden-Key-Certificate.pdf",
     accent: "amber",
   },
@@ -309,6 +377,11 @@ export const credentials: Credential[] = [
     issuer: "Google Cloud via Coursera",
     date: "Jan 2026",
     detail: "Introduction to Large Language Models · Introduction to Responsible AI · Responsible AI with Google Cloud.",
+    verify: [
+      coursera("TDHG3RYAW2LJ", "llms"),
+      coursera("WX52SV656E9R", "resp. ai"),
+      coursera("REVCUAJDHB5F", "gcloud"),
+    ],
     accent: "blue",
   },
   {
@@ -316,6 +389,12 @@ export const credentials: Credential[] = [
     issuer: "University of Michigan via Coursera",
     date: "Jan 2026",
     detail: "Fundamentals · Governance & Regulation · Business & Society · Future of Work.",
+    verify: [
+      coursera("B4OXJKOABJAS", "fundamentals"),
+      coursera("FNZ608VGFA8G", "governance"),
+      coursera("IE271QV59T5O", "business"),
+      coursera("Z1WRID3P6W5X", "work"),
+    ],
     accent: "blue",
   },
   {
@@ -325,13 +404,12 @@ export const credentials: Credential[] = [
     detail: "Word & Excel 2019 Advanced · PowerPoint & Access 2019 Introductory.",
     accent: "green",
   },
-  // TODO: add more certs
   {
-    title: "Next credential",
-    issuer: "Reserved slot",
-    date: "—",
-    accent: "green",
-    placeholder: true,
+    title: "Coding Fundamentals I & II · Code Editors",
+    issuer: "Grasshopper by Google",
+    date: "2023",
+    detail: "Where I started: JavaScript fundamentals and working in a real code editor.",
+    accent: "violet",
   },
 ];
 

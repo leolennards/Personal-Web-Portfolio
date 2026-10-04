@@ -61,8 +61,24 @@ function CredCard({ c, index }: { c: Credential; index: number }) {
       <div className="mt-1 text-sm text-dim">{c.issuer}</div>
       {c.detail && <p className="mt-3 text-sm text-faint">{c.detail}</p>}
 
-      <div className="mt-auto flex items-center justify-between pt-5 font-mono text-[11px]">
+      <div className="mt-auto flex flex-wrap items-center justify-between gap-2 pt-5 font-mono text-[11px]">
         {c.id ? <span className="text-faint">ID {c.id}</span> : <span />}
+        {c.verify && (
+          <span className="relative z-10 flex flex-wrap gap-1.5">
+            {c.verify.map((v) => (
+              <a
+                key={v.url}
+                href={v.url}
+                target="_blank"
+                rel="noreferrer"
+                title={`Verify on Coursera`}
+                className="rounded border border-line-bright px-1.5 py-0.5 text-dim transition hover:border-signal hover:text-signal"
+              >
+                {v.label} ↗
+              </a>
+            ))}
+          </span>
+        )}
         {c.file && (
           <a
             href={c.file}
