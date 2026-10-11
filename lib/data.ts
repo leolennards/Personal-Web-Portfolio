@@ -151,7 +151,6 @@ export const experience: Role[] = [
         label: "Microsoft 365, identity & Active Directory",
         points: [
           "Administer Microsoft 365 across multiple client tenants: user setup, licence assignment, mailbox issues and Entra ID MFA registration errors.",
-          "Audit and interpret licence assignments across tenants using PowerShell with Microsoft Graph.",
           "Manage user accounts, password resets and group membership in Active Directory.",
         ],
       },
