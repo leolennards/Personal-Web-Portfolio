@@ -53,6 +53,13 @@ export default function StatusBar() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!open) return;
+    const esc = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", esc);
+    return () => window.removeEventListener("keydown", esc);
+  }, [open]);
+
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-line/80 bg-void/70 backdrop-blur-xl">
       <div className="mx-auto flex h-14 max-w-7xl items-center gap-4 px-4 font-mono text-xs sm:px-6">
@@ -70,6 +77,7 @@ export default function StatusBar() {
             <a
               key={s.id}
               href={`#${s.id}`}
+              aria-current={active === s.id ? "true" : undefined}
               className={`relative rounded px-3 py-1.5 transition ${
                 active === s.id ? "text-signal" : "text-dim hover:text-ink"
               }`}

@@ -14,9 +14,10 @@ import Terminal from "@/components/Terminal";
 export default function Home() {
   return (
     <>
+      <a href="#main" className="skip-link">skip to content</a>
       <BootSequence />
       <StatusBar />
-      <main>
+      <main id="main">
         <Hero />
         <About />
         <Skills />

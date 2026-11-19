@@ -8,7 +8,7 @@
   --color-line-bright: #253345;
   --color-ink: #e6edf3;
   --color-dim: #8b98a8;
-  --color-faint: #4d5b6c;
+  --color-faint: #6f7f93;
   --color-signal: #3dff9a;
   --color-signal-dim: #1f8f57;
   --color-amber: #ffb547;
@@ -51,6 +51,31 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+}
+
+/* keyboard focus */
+:focus-visible {
+  outline: 2px solid var(--color-signal);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.skip-link {
+  position: fixed;
+  left: 1rem;
+  top: -4rem;
+  z-index: 120;
+  padding: 0.6rem 1rem;
+  background: var(--color-signal);
+  color: var(--color-void);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: 6px;
+  transition: top 0.2s;
+}
+.skip-link:focus {
+  top: 1rem;
 }
 
 ::selection {
